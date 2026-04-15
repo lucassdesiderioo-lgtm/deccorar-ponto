@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deccorar · Ponto</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f4f0;--surface:#ffffff;--surface2:#f1efe8;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);--text:#1a1a18;--text2:#5f5e5a;--text3:#888780;--accent:#D85A30;--accent2:#993C1D;--radius:8px;--radius-lg:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{background:var(--surface);border-bottom:0.5px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:48px;position:sticky;top:0;z-index:10}
+.logo{font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{padding:6px 12px;font-size:13px;border:none;background:transparent;cursor:pointer;border-radius:var(--radius);color:var(--text2)}
+.nav-btn.active{background:var(--surface2);color:var(--text);font-weight:500}
+.clock{font-size:12px;color:var(--text3);font-variant-numeric:tabular-nums}
+.content{padding:1.25rem;max-width:1100px;margin:0 auto}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.st{font-size:15px;font-weight:500}
+.btn{padding:7px 14px;font-size:13px;border-radius:var(--radius);cursor:pointer;border:0.5px solid var(--border2);background:var(--surface);color:var(--text)}
+.btn:hover{background:var(--surface2)}
+.btn-acc{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-acc:hover{background:var(--accent2)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:1rem}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+@media(max-width:700px){.grid2,.grid4{grid-template-columns:1fr}}
+.metric{background:var(--surface2);border-radius:var(--radius);padding:1rem}
+.ml{font-size:12px;color:var(--text2);margin-bottom:4px}
+.mv{font-size:22px;font-weight:500}
+.ms{font-size:11px;color:var(--text3);margin-top:2px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+.ct{font-size:13px;font-weight:500;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:6px 8px;font-size:11px;font-weight:500;color:var(--text2);border-bottom:0.5px solid var(--border)}
+td{padding:7px 8px;border-bottom:0.5px solid var(--border)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
+.bok{background:#EAF3DE;color:#27500A}
+.bwarn{background:#FAEEDA;color:#633806}
+.bdanger{background:#FCEBEB;color:#791F1F}
+.binfo{background:#E6F1FB;color:#0C447C}
+.bgray{background:#F1EFE8;color:#444441}
+.alert-row{background:#FAEEDA;border:0.5px solid #FAC775;border-radius:var(--radius);padding:8px 12px;margin-bottom:6px;font-size:12px;color:#633806;display:flex;align-items:center;gap:8px}
+.adot{width:6px;height:6px;border-radius:50%;background:#BA7517;flex-shrink:0}
+.pin-wrap{max-width:300px;margin:0 auto;padding:1rem 0;text-align:center}
+.pin-disp{font-size:28px;font-weight:500;letter-spacing:10px;background:var(--surface2);border-radius:var(--radius-lg);padding:14px 24px;margin-bottom:8px;min-height:64px;display:flex;align-items:center;justify-content:center}
+.pin-name{font-size:13px;color:var(--text2);margin-bottom:12px;min-height:20px}
+.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.pk{padding:14px;font-size:18px;font-weight:500;border-radius:var(--radius-lg);border:0.5px solid var(--border2);background:var(--surface);cursor:pointer;color:var(--text)}
+.pk:hover{background:var(--surface2)}
+.pk.del{font-size:13px;color:var(--text2)}
+.pk.zero{grid-column:2}
+.punch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.pb{padding:10px;font-size:12px;border-radius:var(--radius);border:0.5px solid var(--border2);background:var(--surface);cursor:pointer;color:var(--text);font-weight:500}
+.pb:hover{background:var(--surface2)}
+.pb.sel{border:2px solid var(--accent);color:var(--accent)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;flex-shrink:0}
+.log-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:12px}
+.log-row:last-child{border-bottom:none}
+.cr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.cr:last-child{border-bottom:none}
+.ci{flex:1}
+.cn{font-size:13px;font-weight:500}
+.cro{font-size:11px;color:var(--text2)}
+.bar-wrap{background:var(--surface2);border-radius:20px;height:6px;overflow:hidden;flex:1}
+.bar-fill{height:100%;border-radius:20px}
+.score-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.score-rank{font-size:18px;font-weight:500;color:var(--text3);width:24px;text-align:center;flex-shrink:0}
+.score-info{flex:1;min-width:120px}
+.score-name{font-size:13px;font-weight:500}
+.score-detail{font-size:11px;color:var(--text2);margin-top:2px}
+.score-bars{flex:2;min-width:160px;display:flex;flex-direction:column;gap:4px}
+.score-bar-row{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text2)}
+.login-wrap{max-width:320px;margin:3rem auto;padding:0 1rem}
+.login-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:4px}
+.field input,.field select{width:100%;padding:8px 10px;font-size:13px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--surface2);color:var(--text)}
+.field .hint{font-size:11px;color:var(--text3);margin-top:3px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:100}
+.modal{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;width:320px;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:14px}
+.mbtns{display:flex;gap:8px;margin-top:14px}
+.mbtns button{flex:1;padding:8px;font-size:13px;border-radius:var(--radius);cursor:pointer;border:0.5px solid var(--border2);background:transparent;color:var(--text)}
+.mbtns .ok{background:var(--accent);color:#fff;border-color:var(--accent)}
+.toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.5rem;text-align:center;z-index:200;min-width:220px}
+.saldo-box{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;text-align:center}
+.tag-admin{font-size:11px;background:#FCEBEB;color:#791F1F;border-radius:20px;padding:2px 8px;font-weight:500}
+.overflow-x{overflow-x:auto}
+.manual-form{background:var(--surface2);border-radius:var(--radius);padding:12px;margin-top:12px}
+.manual-form .ft{font-size:12px;font-weight:500;color:var(--text2);margin-bottom:10px}
+.inline-fields{display:flex;gap:8px;flex-wrap:wrap}
+.inline-fields .field{flex:1;min-width:100px;margin-bottom:0}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><div class="logo-dot"></div>Deccorar · Ponto</div>
+  <div class="nav" id="nav-area"></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="clock" id="clock"></div>
+    <div id="user-area"></div>
+  </div>
+</div>
+<div id="main"></div>
+<div id="modal-area"></div>
+
+<script>
+const CORES={blue:{bg:'#E6F1FB',color:'#0C447C'},pink:{bg:'#FBEAF0',color:'#72243E'},purple:{bg:'#EEEDFE',color:'#3C3489'},green:{bg:'#EAF3DE',color:'#27500A'},amber:{bg:'#FAEEDA',color:'#633806'}};
+const PUNCH_TYPES=[
+  {id:'entrada',label:'Entrada'},
+  {id:'pausa',label:'Pausa'},
+  {id:'volta_pausa',label:'Volta pausa'},
+  {id:'saida_almoco',label:'Saída almoço'},
+  {id:'volta_almoco',label:'Volta almoço'},
+  {id:'saida',label:'Saída'},
+];
+
+let logado=false;
+let tab='ponto';
+let pinBuffer='';
+let pinUser=null;
+let selectedPunch=null;
+let verSaldo=false;
+let mesAtual=new Date().toISOString().slice(0,7);
+let colabRel=null;
+let colaboradores=[];
+let jornada={entrada:'07:00',saida:'17:00',carga:528,pausa:72,tolerancia:5};
+let adminUser='admin';
+let adminPass='deccorar2026';
+
+function hoje(){return new Date().toISOString().slice(0,10)}
+function horaAgora(){const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')}
+function toMin(hhmm){if(!hhmm)return 0;const[h,m]=hhmm.split(':').map(Number);return h*60+m}
+function toHHMM(min){const neg=min<0;const abs=Math.abs(min);return(neg?'-':'')+String(Math.floor(abs/60)).padStart(2,'0')+':'+String(abs%60).padStart(2,'0')}
+function avHtml(c,size=28){const cor=CORES[c.cor]||CORES.blue;const ini=(c.nome||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();return`<div class="av" style="width:${size}px;height:${size}px;font-size:${size<=22?9:11}px;background:${cor.bg};color:${cor.color}">${ini}</div>`}
+
+async function api(method,path,body){
+  const opts={method,headers:{'Content-Type':'application/json'}};
+  if(body)opts.body=JSON.stringify(body);
+  const r=await fetch(path,opts);
+  return r.json();
+}
+
+async function loadColabs(){colaboradores=await api('GET','/api/colaboradores');}
+async function loadJornada(){
+  try{const j=await api('GET','/api/config/jornada');if(j&&j.entrada)jornada=j;}catch(e){}
+}
+async function loadAdmin(){
+  try{const a=await api('GET','/api/config/admin');if(a&&a.user){adminUser=a.user;adminPass=a.pass;}}catch(e){}
+}
+
+function setTab(t){tab=t;pinBuffer='';pinUser=null;selectedPunch=null;verSaldo=false;render();}
+function logout(){logado=false;tab='ponto';render();}
+
+function renderNav(){
+  document.getElementById('nav-area').innerHTML=`
+    <button class="nav-btn${tab==='ponto'?' active':''}" onclick="setTab('ponto')">Registrar ponto</button>
+    ${logado?`
+      <button class="nav-btn${tab==='dashboard'?' active':''}" onclick="setTab('dashboard')">Dashboard</button>
+      <button class="nav-btn${tab==='comportamento'?' active':''}" onclick="setTab('comportamento')">Comportamento</button>
+      <button class="nav-btn${tab==='colaboradores'?' active':''}" onclick="setTab('colaboradores')">Colaboradores</button>
+      <button class="nav-btn${tab==='jornada'?' active':''}" onclick="setTab('jornada')">Jornada</button>
+    `:`<button class="nav-btn${tab==='gestor'?' active':''}" onclick="setTab('gestor')">Área do gestor</button>`}`;
+  document.getElementById('user-area').innerHTML=logado
+    ?`<div style="display:flex;align-items:center;gap:8px"><span class="tag-admin">Admin</span><button class="btn btn-sm" onclick="logout()">Sair</button></div>`:'';
+}
+
+async function render(){
+  await loadColabs();
+  await loadJornada();
+  renderNav();
+  if(!logado&&tab==='gestor'){renderLogin();return;}
+  if(tab==='ponto')renderPonto();
+  else if(tab==='dashboard')renderDashboard();
+  else if(tab==='comportamento')renderComportamento();
+  else if(tab==='colaboradores')renderColaboradores();
+  else if(tab==='jornada')renderJornada();
+}
+
+async function renderPonto(){
+  const regsHoje=await api('GET',`/api/registros?data=${hoje()}`);
+  const presentes=colaboradores.filter(c=>{
+    const cr=regsHoje.filter(r=>r.colab_id===c.id);
+    return cr.some(r=>r.tipo==='entrada')&&!cr.some(r=>r.tipo==='saida');
+  });
+  document.getElementById('main').innerHTML=`
+    <div class="content">
+      <div class="grid2">
+        <div>
+          <div class="pin-wrap">
+            <div style="font-size:13px;color:var(--text2);margin-bottom:8px">Digite seu PIN</div>
+            <div class="pin-disp" id="pin-disp">_ _ _ _</div>
+            <div class="pin-name" id="pin-name"></div>
+            <div id="punch-area"></div>
+            <div class="pin-grid">
+              ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pk" onclick="pinPress('${n}')">${n}</button>`).join('')}
+              <button class="pk del" onclick="pinDel()">apagar</button>
+              <button class="pk zero" onclick="pinPress('0')">0</button>
+            </div>
+            <div id="pin-action"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:10px">
+            <div class="ct">Presentes agora</div>
+            ${presentes.length===0?'<div style="font-size:12px;color:var(--text3)">Nenhum colaborador no momento</div>':
+            presentes.map(c=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">${avHtml(c)}<span style="font-size:13px">${c.nome}</span><span class="badge bok" style="margin-left:auto">Presente</span></div>`).join('')}
+          </div>
+          <div class="card">
+            <div class="ct">Registros de hoje</div>
+            ${regsHoje.length===0?'<div style="font-size:12px;color:var(--text3)">Nenhum registro ainda</div>':
+            regsHoje.map(r=>{
+              const c=colaboradores.find(x=>x.id===r.colab_id)||{nome:'?',cor:'blue'};
+              const tp=PUNCH_TYPES.find(p=>p.id===r.tipo)||{label:r.tipo};
+              return`<div class="log-row"><div style="display:flex;align-items:center;gap:6px">${avHtml(c,20)}<span>${c.nome}</span></div><span style="color:var(--text2)">${tp.label}</span><span style="font-weight:500">${r.hora}</span></div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  updatePin();
+}
+
+function pinPress(n){if(pinBuffer.length<4){pinBuffer+=n;updatePin();}}
+function pinDel(){if(pinBuffer.length>0){pinBuffer=pinBuffer.slice(0,-1);selectedPunch=null;updatePin();}}
+
+async function updatePin(){
+  const disp=document.getElementById('pin-disp');
+  const nameEl=document.getElementById('pin-name');
+  const pa=document.getElementById('punch-area');
+  const act=document.getElementById('pin-action');
+  if(!disp)return;
+  disp.textContent=pinBuffer.padEnd(4,'_').split('').join(' ');
+  if(pinBuffer.length===4){
+    const found=await api('POST','/api/auth/pin',{pin:pinBuffer});
+    if(found&&found.id){
+      pinUser=found;
+      nameEl.textContent='Olá, '+found.nome+'!';
+      if(verSaldo){showSaldoInline(found,pa,act);return;}
+      pa.innerHTML=`<div class="punch-grid">${PUNCH_TYPES.map(pt=>`<button class="pb${selectedPunch===pt.id?' sel':''}" onclick="selPunch('${pt.id}')">${pt.label}</button>`).join('')}</div>`;
+      act.innerHTML=`
+        <button class="btn btn-acc" style="width:100%;margin-bottom:8px" onclick="registrar()">Registrar</button>
+        <button class="btn" style="width:100%;font-size:12px" onclick="verSaldo=true;updatePin()">Ver meu saldo de horas</button>`;
+    }else{
+      nameEl.textContent='PIN não encontrado';
+      if(pa)pa.innerHTML='';if(act)act.innerHTML='';
+      setTimeout(()=>{pinBuffer='';updatePin();},1200);
+    }
+  }else{
+    pinUser=null;nameEl.textContent='';
+    if(pa)pa.innerHTML='';if(act)act.innerHTML='';
+  }
+}
+
+function selPunch(id){selectedPunch=id;updatePin();}
+
+async function showSaldoInline(colab,pa,act){
+  const r=await api('GET',`/api/relatorio/${colab.id}/${mesAtual}`);
+  const rs=r.resumo||{};
+  const cor=CORES[colab.cor]||CORES.blue;
+  pa.innerHTML=`
+    <div class="saldo-box">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">Saldo de horas — ${mesAtual}</div>
+      <div style="font-size:30px;font-weight:500;color:${rs.saldoPos?'#1D9E75':'#A32D2D'}">${rs.saldoPos?'+':''}${rs.totalSaldo||'00:00'}</div>
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:10px;font-size:11px;color:var(--text2)">
+        <div><div style="font-weight:500;color:var(--text)">${rs.totalTrab||'00:00'}</div><div>trabalhadas</div></div>
+        <div><div style="font-weight:500;color:var(--text)">${rs.diasTrabalhados||0}</div><div>dias</div></div>
+        <div><div style="font-weight:500;color:${(r.alertas?.length||0)>0?'#A32D2D':'#1D9E75'}">${r.alertas?.length||0}</div><div>alertas</div></div>
+      </div>
+    </div>`;
+  act.innerHTML=`<button class="btn" style="width:100%;font-size:12px" onclick="verSaldo=false;pinBuffer='';pinUser=null;updatePin()">Voltar</button>`;
+}
+
+async function registrar(){
+  if(!pinUser||!selectedPunch)return;
+  const hora=horaAgora();
+  await api('POST','/api/registros',{colab_id:pinUser.id,tipo:selectedPunch,hora,data:hoje()});
+  const tp=PUNCH_TYPES.find(p=>p.id===selectedPunch);
+  const cor=CORES[pinUser.cor]||CORES.blue;
+  const ini=pinUser.nome.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const t=document.createElement('div');
+  t.className='toast';
+  t.innerHTML=`<div class="av" style="width:44px;height:44px;font-size:15px;background:${cor.bg};color:${cor.color};margin:0 auto 10px">${ini}</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:4px">${pinUser.nome}</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:8px">${tp?.label} registrado</div>
+    <div style="font-size:26px;font-weight:500;color:var(--accent)">${hora}</div>`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2200);
+  pinBuffer='';pinUser=null;selectedPunch=null;verSaldo=false;
+  renderPonto();
+}
+
+function renderLogin(){
+  document.getElementById('main').innerHTML=`
+    <div class="login-wrap">
+      <div class="login-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.25rem">
+          <div style="width:36px;height:36px;border-radius:50%;background:#FCEBEB;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="8" width="10" height="7" rx="1.5" stroke="#A32D2D" stroke-width="1.2"/><path d="M5 8V5.5a3 3 0 016 0V8" stroke="#A32D2D" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div style="font-size:16px;font-weight:500">Área do gestor</div>
+            <div style="font-size:12px;color:var(--text2)">Acesso restrito</div>
+          </div>
+        </div>
+        <div class="field"><label>Usuário</label><input id="l-user" placeholder="admin"/></div>
+        <div class="field"><label>Senha</label><input id="l-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin()"/></div>
+        <button class="btn btn-acc" style="width:100%;margin-top:4px" onclick="fazerLogin()">Entrar</button>
+        <div id="l-err" style="font-size:12px;color:#A32D2D;text-align:center;margin-top:8px;min-height:16px"></div>
+      </div>
+    </div>`;
+}
+
+async function fazerLogin(){
+  const u=document.getElementById('l-user').value;
+  const p=document.getElementById('l-pass').value;
+  const r=await api('POST','/api/auth/admin',{user:u,pass:p});
+  if(r.ok){logado=true;tab='dashboard';render();}
+  else{document.getElementById('l-err').textContent='Usuário ou senha incorretos';}
+}
+
+async function renderDashboard(){
+  const regsHoje=await api('GET',`/api/registros?data=${hoje()}`);
+  const presentes=colaboradores.filter(c=>{
+    const cr=regsHoje.filter(r=>r.colab_id===c.id);
+    return cr.some(r=>r.tipo==='entrada')&&!cr.some(r=>r.tipo==='saida');
+  }).length;
+  const rels=await Promise.all(colaboradores.map(c=>api('GET',`/api/relatorio/${c.id}/${mesAtual}`)));
+  const totalAlertas=rels.reduce((a,r)=>a+(r.alertas?.length||0),0);
+
+  document.getElementById('main').innerHTML=`
+    <div class="content">
+      <div class="sh"><span class="st">Dashboard — ${mesAtual}</span>
+        <input type="month" value="${mesAtual}" style="padding:5px 8px;font-size:13px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--surface2);color:var(--text)" onchange="mesAtual=this.value;renderDashboard()"/>
+      </div>
+      <div class="grid4">
+        <div class="metric"><div class="ml">Presentes hoje</div><div class="mv">${presentes}</div><div class="ms">de ${colaboradores.length}</div></div>
+        <div class="metric"><div class="ml">Alertas no mês</div><div class="mv" style="color:${totalAlertas>0?'#A32D2D':'#1D9E75'}">${totalAlertas}</div><div class="ms">atrasos e pausas</div></div>
+        <div class="metric"><div class="ml">Colaboradores</div><div class="mv">${colaboradores.length}</div></div>
+        <div class="metric"><div class="ml">Período</div><div class="mv" style="font-size:15px">${mesAtual}</div></div>
+      </div>
+      <div class="card">
+        <div class="ct">Banco de horas — ${mesAtual}</div>
+        <div class="overflow-x"><table>
+          <thead><tr><th>Colaborador</th><th>Dias</th><th>Trabalhado</th><th>Saldo</th><th>Pontualidade</th><th>Alertas</th></tr></thead>
+          <tbody>
+            ${colaboradores.map((c,i)=>{
+              const rs=rels[i]?.resumo||{};
+              const pont=rels[i]?.pontualidade||100;
+              return`<tr>
+                <td><div style="display:flex;align-items:center;gap:6px">${avHtml(c,22)}<span>${c.nome}</span></div></td>
+                <td>${rs.diasTrabalhados||0}</td>
+                <td>${rs.totalTrab||'00:00'}</td>
+                <td><span class="badge ${rs.saldoPos?'bok':'bdanger'}">${rs.saldoPos?'+':''}${rs.totalSaldo||'00:00'}</span></td>
+                <td><div style="display:flex;align-items:center;gap:6px">
+                  <div class="bar-wrap"><div class="bar-fill" style="width:${pont}%;background:${pont>=90?'#1D9E75':pont>=70?'#BA7517':'#E24B4A'}"></div></div>
+                  <span style="font-size:11px;font-weight:500;min-width:28px">${pont}%</span>
+                </div></td>
+                <td><span class="badge ${(rels[i]?.alertas?.length||0)===0?'bok':'bwarn'}">${(rels[i]?.alertas?.length||0)===0?'Ok':(rels[i]?.alertas?.length)+' alerta(s)'}</span></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table></div>
+      </div>
+      ${totalAlertas>0?`<div class="card"><div class="ct">Alertas do mês</div>${colaboradores.flatMap((c,i)=>(rels[i]?.alertas||[]).map(a=>`<div class="alert-row"><div class="adot"></div><strong>${c.nome}:</strong>&nbsp;${a.data} — ${a.msg}</div>`)).join('')}</div>`:''}
+      <div class="card">
+        <div class="ct">Ponto de hoje — ${hoje()}</div>
+        <table><thead><tr><th>Colaborador</th><th>Entrada</th><th>Saída</th><th>Situação</th></tr></thead><tbody>
+          ${colaboradores.map(c=>{
+            const cr=regsHoje.filter(r=>r.colab_id===c.id);
+            const ent=cr.find(r=>r.tipo==='entrada');
+            const sai=cr.find(r=>r.tipo==='saida');
+            if(!ent)return`<tr><td><div style="display:flex;align-items:center;gap:6px">${avHtml(c,22)}<span>${c.nome}</span></div></td><td colspan="3" style="color:var(--text3)">Sem registro</td></tr>`;
+            return`<tr><td><div style="display:flex;align-items:center;gap:6px">${avHtml(c,22)}<span>${c.nome}</span></div></td><td>${ent.hora}</td><td>${sai?.hora||'—'}</td><td><span class="badge ${sai?'bok':'binfo'}">${sai?'Completo':'Em curso'}</span></td></tr>`;
+          }).join('')}
+        </tbody></table>
+      </div>
+    </div>`;
+}
+
+async function renderComportamento(){
+  const rels=await Promise.all(colaboradores.map(c=>api('GET',`/api/relatorio/${c.id}/${mesAtual}`)));
+  const dados=colaboradores.map((c,i)=>({...c,rel:rels[i]}));
+  const ranked=[...dados].sort((a,b)=>(b.rel?.pontualidade||0)-(a.rel?.pontualidade||0));
+
+  document.getElementById('main').innerHTML=`
+    <div class="content">
+      <div class="sh"><span class="st">Comportamento dos colaboradores</span>
+        <input type="month" value="${mesAtual}" style="padding:5px 8px;font-size:13px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--surface2);color:var(--text)" onchange="mesAtual=this.value;renderComportamento()"/>
+      </div>
+      <div class="card">
+        <div class="ct">Ranking de pontualidade — ${mesAtual}</div>
+        ${ranked.map((c,i)=>{
+          const r=c.rel||{};
+          const rs=r.resumo||{};
+          const pont=r.pontualidade||100;
+          const pausaOk=r.pausaScore||100;
+          const medal=i===0?'#BA7517':i===1?'#888780':i===2?'#854F0B':'';
+          return`<div class="score-card">
+            <div class="score-rank" style="${medal?'color:'+medal:''}">${i+1}</div>
+            ${avHtml(c,36)}
+            <div class="score-info">
+              <div class="score-name">${c.nome}</div>
+              <div class="score-detail">${c.cargo} · ${rs.diasTrabalhados||0} dias</div>
+              <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+                <span class="badge ${pont>=90?'bok':pont>=70?'bwarn':'bdanger'}">Pontualidade ${pont}%</span>
+                <span class="badge ${pausaOk>=90?'bok':pausaOk>=70?'bwarn':'bdanger'}">Pausas ${pausaOk}%</span>
+                <span class="badge ${(r.alertas?.length||0)===0?'bok':'bwarn'}">${(r.alertas?.length||0)===0?'Sem alertas':(r.alertas?.length)+' alerta(s)'}</span>
+              </div>
+            </div>
+            <div class="score-bars">
+              <div class="score-bar-row">
+                <span style="min-width:60px">Pontualidade</span>
+                <div class="bar-wrap"><div class="bar-fill" style="width:${pont}%;background:${pont>=90?'#1D9E75':pont>=70?'#BA7517':'#E24B4A'}"></div></div>
+                <span style="font-size:11px;font-weight:500;min-width:28px">${pont}%</span>
+              </div>
+              <div class="score-bar-row">
+                <span style="min-width:60px">Pausas ok</span>
+                <div class="bar-wrap"><div class="bar-fill" style="width:${pausaOk}%;background:${pausaOk>=90?'#1D9E75':pausaOk>=70?'#BA7517':'#E24B4A'}"></div></div>
+                <span style="font-size:11px;font-weight:500;min-width:28px">${pausaOk}%</span>
+              </div>
+              <div class="score-bar-row">
+                <span style="min-width:60px">Saldo</span>
+                <div class="bar-wrap"><div class="bar-fill" style="width:${Math.min(100,Math.max(0,50+(parseInt(rs.totalSaldo||0)/60)*5))}%;background:${rs.saldoPos?'#1D9E75':'#E24B4A'}"></div></div>
+                <span style="font-size:11px;font-weight:500;color:${rs.saldoPos?'#1D9E75':'#A32D2D'};min-width:40px">${rs.saldoPos?'+':''}${rs.totalSaldo||'00:00'}</span>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="card">
+        <div class="ct">Quem mais atrasa</div>
+        <table><thead><tr><th>Colaborador</th><th>Dias com atraso</th><th>Total atraso</th><th>Situação</th></tr></thead><tbody>
+          ${[...dados].sort((a,b)=>(b.rel?.resumo?.totalAtrasoMin||0)-(a.rel?.resumo?.totalAtrasoMin||0)).map(c=>{
+            const diasAtraso=(c.rel?.alertas||[]).filter(a=>a.msg.startsWith('Atraso')).length;
+            return`<tr>
+              <td><div style="display:flex;align-items:center;gap:6px">${avHtml(c,22)}<span>${c.nome}</span></div></td>
+              <td>${diasAtraso}</td>
+              <td>${c.rel?.resumo?.totalAtrasos||'—'}</td>
+              <td><span class="badge ${diasAtraso===0?'bok':diasAtraso<=2?'bwarn':'bdanger'}">${diasAtraso===0?'Pontual':diasAtraso<=2?'Atenção':'Frequente'}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody></table>
+      </div>
+    </div>`;
+}
+
+async function renderColaboradores(){
+  colabRel=colabRel||colaboradores[0]?.id;
+  document.getElementById('main').innerHTML=`
+    <div class="content">
+      <div class="sh"><span class="st">Colaboradores</span><button class="btn" onclick="openAddCollab()">+ cadastrar</button></div>
+      <div class="card">
+        ${colaboradores.map(c=>`
+          <div class="cr">
+            ${avHtml(c,36)}
+            <div class="ci"><div class="cn">${c.nome}</div><div class="cro">${c.cargo||''}</div></div>
+            <span style="font-size:11px;background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius);padding:3px 8px;color:var(--text2);font-family:monospace">PIN: ${c.pin}</span>
+            <button class="btn btn-sm" style="margin-left:6px" onclick="openEditPin('${c.id}','${c.nome}')">Editar PIN</button>
+            <button class="btn btn-sm" style="margin-left:4px;color:#A32D2D" onclick="removerCollab('${c.id}','${c.nome}')">Remover</button>
+          </div>`).join('')}
+      </div>
+
+      <div class="sh" style="margin-top:0.5rem"><span class="st">Relatório e lançamento manual</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <select style="padding:6px 10px;font-size:13px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--surface2);color:var(--text)" onchange="colabRel=this.value;renderColaboradores()">
+            ${colaboradores.map(c=>`<option value="${c.id}"${c.id===colabRel?' selected':''}>${c.nome}</option>`).join('')}
+          </select>
+          <input type="month" value="${mesAtual}" style="padding:6px 8px;font-size:13px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--surface2);color:var(--text)" onchange="mesAtual=this.value;renderColaboradores()"/>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct">Lançamento manual de ponto</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Use quando o colaborador registrar o ponto fora da empresa (ex: via WhatsApp).</div>
+        <div class="inline-fields">
+          <div class="field"><label>Tipo de registro</label>
+            <select id="m-tipo">
+              ${PUNCH_TYPES.map(pt=>`<option value="${pt.id}">${pt.label}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field"><label>Data</label><input type="date" id="m-data" value="${hoje()}"/></div>
+          <div class="field"><label>Hora</label><input type="time" id="m-hora" value="${horaAgora()}"/></div>
+        </div>
+        <button class="btn btn-acc btn-sm" style="margin-top:4px" onclick="lancarManual()">Lançar registro</button>
+        <div id="m-msg" style="font-size:12px;color:#1D9E75;margin-top:8px;min-height:16px"></div>
+      </div>
+
+      <div id="relatorio-area"></div>
+      <div id="atestados-area"></div>
+    </div>`;
+  carregarRelatorio();
+  carregarAtestados();
+}
+
+async function lancarManual(){
+  const tipo=document.getElementById('m-tipo').value;
+  const data=document.getElementById('m-data').value;
+  const hora=document.getElementById('m-hora').value;
+  if(!tipo||!data||!hora)return;
+  await api('POST','/api/registros',{colab_id:colabRel,tipo,hora,data});
+  const msg=document.getElementById('m-msg');
+  if(msg){msg.textContent='Registro lançado com sucesso!';setTimeout(()=>{if(msg)msg.textContent=''},2500);}
+  carregarRelatorio();
+}
+
+async function carregarRelatorio(){
+  const area=document.getElementById('relatorio-area');
+  if(!area||!colabRel)return;
+  const r=await api('GET',`/api/relatorio/${colabRel}/${mesAtual}`);
+  const rs=r.resumo||{};
+  area.innerHTML=`<div class="card">
+    <div class="ct">Relatório — ${mesAtual}</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+      <div class="metric" style="flex:1"><div class="ml">Saldo</div><div class="mv" style="color:${rs.saldoPos?'#1D9E75':'#A32D2D'}">${rs.saldoPos?'+':''}${rs.totalSaldo||'00:00'}</div></div>
+      <div class="metric" style="flex:1"><div class="ml">Trabalhado</div><div class="mv">${rs.totalTrab||'00:00'}</div></div>
+      <div class="metric" style="flex:1"><div class="ml">Dias</div><div class="mv">${rs.diasTrabalhados||0}</div></div>
+      <div class="metric" style="flex:1"><div class="ml">Alertas</div><div class="mv" style="color:${(r.alertas?.length||0)>0?'#A32D2D':'#1D9E75'}">${r.alertas?.length||0}</div></div>
+    </div>
+    <div class="overflow-x"><table>
+      <thead><tr><th>Data</th><th>Entrada</th><th>Saída</th><th>Trabalhado</th><th>Pausas</th><th>Saldo dia</th><th>Atraso</th><th></th></tr></thead>
+      <tbody>
+        ${(r.dias||[]).map(d=>d.atestado
+          ?`<tr><td>${d.data}</td><td colspan="6"><span class="badge binfo">Atestado médico</span> ${d.observacao||''}</td><td></td></tr>`
+          :`<tr>
+            <td>${d.data}</td><td>${d.entrada||'—'}</td><td>${d.saida||'—'}</td>
+            <td>${d.trabalhado||'—'}</td><td>${d.pausaTotal||'—'}</td>
+            <td><span class="badge ${d.saldoPos?'bok':'bdanger'}">${d.saldoPos?'+':''}${d.saldoDia||'00:00'}</span></td>
+            <td>${d.atraso?`<span class="badge bwarn">${d.atraso}</span>`:'—'}</td>
+            <td><button class="btn btn-sm" style="color:#A32D2D;padding:2px 6px" onclick="verRegistrosDia('${d.data}')">ver</button></td>
+          </tr>`
+        ).join('')||'<tr><td colspan="8" style="color:var(--text3)">Sem registros neste mês</td></tr>'}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+async function verRegistrosDia(data){
+  const regs=await api('GET',`/api/registros?data=${data}&colab_id=${colabRel}`);
+  const linhas=regs.map(r=>{
+    const tp=PUNCH_TYPES.find(p=>p.id===r.tipo)||{label:r.tipo};
+    return`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:13px">
+      <span>${tp.label}</span><span style="font-weight:500">${r.hora}</span>
+      <button class="btn btn-sm" style="color:#A32D2D;padding:2px 6px" onclick="removerRegistro(${r.id})">remover</button>
+    </div>`;
+  }).join('');
+  showModal(`<h3>Registros — ${data}</h3>${linhas||'<div style="color:var(--text3);font-size:13px">Nenhum registro</div>'}
+    <div class="mbtns"><button onclick="closeModal()">Fechar</button></div>`);
+}
+
+async function removerRegistro(id){
+  if(!confirm('Remover este registro?'))return;
+  await api('DELETE',`/api/registros/${id}`);
+  closeModal();carregarRelatorio();
+}
+
+async function carregarAtestados(){
+  const area=document.getElementById('atestados-area');
+  if(!area)return;
+  const ats=await api('GET',`/api/atestados?mes=${mesAtual}`);
+  const filtrados=ats.filter(a=>a.colab_id===colabRel);
+  area.innerHTML=`<div class="card">
+    <div class="sh" style="margin-bottom:10px"><span class="ct" style="margin-bottom:0">Atestados</span><button class="btn btn-sm" onclick="openAtestado()">+ registrar atestado</button></div>
+    ${filtrados.length===0?'<div style="font-size:12px;color:var(--text3)">Nenhum atestado neste mês</div>':
+    filtrados.map(a=>`<div class="cr">
+      <div class="ci"><div class="cn">${a.data}</div><div class="cro">${Math.round(a.horas/60)}h justificadas ${a.observacao?'· '+a.observacao:''}</div></div>
+      <span class="badge binfo">Atestado</span>
+      <button class="btn btn-sm" style="margin-left:8px;color:#A32D2D" onclick="removerAtestado(${a.id})">Remover</button>
+    </div>`).join('')}
+  </div>`;
+}
+
+async function renderJornada(){
+  document.getElementById('main').innerHTML=`
+    <div class="content">
+      <div class="sh"><span class="st">Configuração de jornada</span></div>
+      <div class="card" style="max-width:500px">
+        <div class="ct">Horários e regras</div>
+        <div class="field"><label>Horário de entrada</label><input type="time" id="j-ent" value="${jornada.entrada}"/></div>
+        <div class="field"><label>Horário de saída</label><input type="time" id="j-sai" value="${jornada.saida}"/></div>
+        <div class="field"><label>Carga diária esperada (minutos)</label><input type="number" id="j-carga" value="${jornada.carga}" min="1" max="600"/><div class="hint">Atual: ${toHHMM(jornada.carga)} — 8h48 = 528 minutos</div></div>
+        <div class="field"><label>Pausa padrão total (minutos)</label><input type="number" id="j-pausa" value="${jornada.pausa}" min="0" max="240"/><div class="hint">Atual: ${toHHMM(jornada.pausa)} — 1h12 = 72 minutos</div></div>
+        <div class="field"><label>Tolerância de entrada/saída (minutos)</label><input type="number" id="j-tol" value="${jornada.tolerancia}" min="0" max="30"/></div>
+        <button class="btn btn-acc" style="margin-top:8px" onclick="salvarJornada()">Salvar configurações</button>
+        <div id="j-msg" style="font-size:12px;color:#1D9E75;margin-top:8px;min-height:16px"></div>
+      </div>
+      <div class="card" style="max-width:500px;margin-top:0">
+        <div class="ct">Credenciais do administrador</div>
+        <div class="field"><label>Usuário admin</label><input id="j-auser" value="${adminUser}"/></div>
+        <div class="field"><label>Nova senha</label><input type="password" id="j-apass" placeholder="Deixe em branco para manter atual"/></div>
+        <button class="btn" style="margin-top:8px" onclick="salvarAdmin()">Atualizar credenciais</button>
+        <div id="a-msg" style="font-size:12px;color:#1D9E75;margin-top:8px;min-height:16px"></div>
+      </div>
+    </div>`;
+}
+
+async function salvarJornada(){
+  const j={
+    entrada:document.getElementById('j-ent').value,
+    saida:document.getElementById('j-sai').value,
+    carga:parseInt(document.getElementById('j-carga').value),
+    pausa:parseInt(document.getElementById('j-pausa').value),
+    tolerancia:parseInt(document.getElementById('j-tol').value),
+  };
+  await api('POST','/api/config/jornada',j);
+  jornada=j;
+  const el=document.getElementById('j-msg');
+  if(el){el.textContent='Configurações salvas!';setTimeout(()=>{if(el)el.textContent=''},2000);}
+}
+
+async function salvarAdmin(){
+  const user=document.getElementById('j-auser').value.trim();
+  const pass=document.getElementById('j-apass').value;
+  if(!user)return;
+  await api('POST','/api/config/admin',{user,pass:pass||adminPass});
+  if(user)adminUser=user;
+  if(pass)adminPass=pass;
+  const el=document.getElementById('a-msg');
+  if(el){el.textContent='Credenciais atualizadas!';setTimeout(()=>{if(el)el.textContent=''},2000);}
+}
+
+function openAddCollab(){
+  showModal(`<h3>Cadastrar colaborador</h3>
+    <div class="field"><label>Nome</label><input id="m-nome" placeholder="Nome completo"/></div>
+    <div class="field"><label>Cargo</label><input id="m-cargo" placeholder="Ex: Consultor, Produção..."/></div>
+    <div class="field"><label>PIN (4 dígitos)</label><input id="m-pin" maxlength="4" type="password" placeholder="1234"/></div>
+    <div class="field"><label>Cor</label><select id="m-cor"><option value="blue">Azul</option><option value="pink">Rosa</option><option value="purple">Roxo</option><option value="green">Verde</option><option value="amber">Âmbar</option></select></div>
+    <div class="mbtns"><button onclick="closeModal()">Cancelar</button><button class="ok" onclick="salvarCollab()">Salvar</button></div>`);
+}
+
+async function salvarCollab(){
+  const nome=document.getElementById('m-nome').value.trim();
+  const pin=document.getElementById('m-pin').value;
+  if(!nome||pin.length!==4||isNaN(pin))return alert('Preencha nome e PIN de 4 dígitos');
+  const id=nome.toLowerCase().replace(/\s+/g,'_')+'_'+Date.now();
+  await api('POST','/api/colaboradores',{id,nome,cargo:document.getElementById('m-cargo').value,pin,cor:document.getElementById('m-cor').value});
+  closeModal();renderColaboradores();
+}
+
+function openEditPin(id,nome){
+  showModal(`<h3>Editar PIN — ${nome}</h3>
+    <div class="field"><label>Novo PIN (4 dígitos)</label><input id="m-pin2" maxlength="4" type="password" placeholder="****"/></div>
+    <div class="mbtns"><button onclick="closeModal()">Cancelar</button><button class="ok" onclick="salvarPin('${id}')">Salvar</button></div>`);
+}
+
+async function salvarPin(id){
+  const pin=document.getElementById('m-pin2').value;
+  if(pin.length!==4||isNaN(pin))return alert('PIN deve ter 4 dígitos');
+  await api('PUT',`/api/colaboradores/${id}/pin`,{pin});
+  closeModal();renderColaboradores();
+}
+
+async function removerCollab(id,nome){
+  if(!confirm(`Remover ${nome}? Os registros serão mantidos.`))return;
+  await api('DELETE',`/api/colaboradores/${id}`);
+  renderColaboradores();
+}
+
+function openAtestado(){
+  showModal(`<h3>Registrar atestado</h3>
+    <div class="field"><label>Data</label><input type="date" id="m-adata" value="${hoje()}"/></div>
+    <div class="field"><label>Horas justificadas</label><select id="m-ahoras"><option value="528">Dia completo (8h48)</option><option value="264">Meio período (4h24)</option></select></div>
+    <div class="field"><label>Observação</label><input id="m-aobs" placeholder="Opcional"/></div>
+    <div class="mbtns"><button onclick="closeModal()">Cancelar</button><button class="ok" onclick="salvarAtestado()">Salvar</button></div>`);
+}
+
+async function salvarAtestado(){
+  const data=document.getElementById('m-adata').value;
+  const horas=parseInt(document.getElementById('m-ahoras').value);
+  const obs=document.getElementById('m-aobs').value;
+  if(!data)return;
+  await api('POST','/api/atestados',{colab_id:colabRel,data,horas,observacao:obs});
+  closeModal();carregarAtestados();carregarRelatorio();
+}
+
+async function removerAtestado(id){
+  if(!confirm('Remover este atestado?'))return;
+  await api('DELETE',`/api/atestados/${id}`);
+  carregarAtestados();carregarRelatorio();
+}
+
+function showModal(html){
+  const area=document.getElementById('modal-area');
+  area.innerHTML=`<div class="modal-bg" id="mbg"><div class="modal">${html}</div></div>`;
+  document.getElementById('mbg').addEventListener('click',e=>{if(e.target.id==='mbg')closeModal();});
+}
+function closeModal(){document.getElementById('modal-area').innerHTML='';}
+
+function tick(){const n=new Date();const el=document.getElementById('clock');if(el)el.textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');}
+setInterval(tick,1000);tick();
+render();
+</script>
+</body>
+</html>
